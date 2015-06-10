@@ -1,0 +1,29 @@
+@(title: String)
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>@title</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/snake.css")">
+    </head>
+    <body>
+        <script src="@routes.WebJarAssets.at(WebJarAssets.locate("react/0.13.0/react.js"))"></script>
+        <script src="@routes.WebJarAssets.at(WebJarAssets.locate("JSXTransformer.js"))"></script>
+        <script src="@routes.WebJarAssets.at(WebJarAssets.locate("jquery.js"))"></script>
+        <script src="@routes.WebJarAssets.at(WebJarAssets.locate("Bacon.js"))"></script>
+        <script src="@routes.WebJarAssets.at(WebJarAssets.locate("bacon.jquery.js"))"></script>
+        <script src="@routes.WebJarAssets.at(WebJarAssets.locate("underscore.js"))"></script>
+
+        <script type="text/jsx" src="@routes.Assets.at("javascripts/tools.js")"></script>
+        <script type="text/jsx" src="@routes.Assets.at("javascripts/Position.js")"></script>
+        <script type="text/jsx" src="@routes.Assets.at("javascripts/components/Board.js")"></script>
+        <script type="text/jsx" src="@routes.Assets.at("javascripts/components/SnakeGame.js")"></script>
+
+        <div id="container"></div>
+        <script type="text/jsx">
+            $(document).ready(function() {
+                React.initializeTouchEvents();
+                React.render(<SnakeGame />, document.getElementById('container'));
+            });
+        </script>
+    </body>
+</html>
