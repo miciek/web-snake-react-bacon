@@ -17,7 +17,7 @@ define(function(require) {
                 var cells = _.range(this.props.size.x).map(function (x) {
                     var className = "cell";
                     if (tools.contains(this.props.snakePositions, new Position(x, y))) className += " snake";
-                    if (tools.contains(this.props.fruitPositions, new Position(x, y))) className += " apple";
+                    if (tools.contains(this.props.fruitPositions, new Position(x, y))) className += " fruit";
 
                     return <div key={"r" + y + "c" + x} className={className}/>;
                 }.bind(this));
