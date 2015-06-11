@@ -39,11 +39,8 @@ define(function(require) {
             var rights = keys.filter(function (x) {
                 return x === 39;
             });
-            var restart = keys.filter(function (x) {
-                return x === 82;
-            });
-            var tick = Bacon.interval(100);
-            this.inputs = {left: lefts, right: rights, tick: tick, restart: restart};
+            var ticks = Bacon.interval(100);
+            this.input = {lefts: lefts, rights: rights, ticks: ticks};
 
             this.fruitPositions = new Bacon.Bus();
         },
@@ -69,16 +66,14 @@ define(function(require) {
 
             headPositions.filter(function (head) {
                 return tools.contains(this.state.fruitPositions, head);
-            }.bind(this)).onValue(function (x) {
-                this.fruitEaten();
-            }.bind(this));
+            }.bind(this)).assign(this.fruitEaten);
         },
 
         snakeHeadPositions: function () {
-            var leftsMappedToRotations = this.inputs.left.map(function () {
+            var leftsMappedToRotations = this.input.lefts.map(function () {
                 return Position.rotateLeft;
             });
-            var rightsMappedToRotations = this.inputs.right.map(function () {
+            var rightsMappedToRotations = this.input.rights.map(function () {
                 return Position.rotateRight;
             });
             var actions = leftsMappedToRotations.merge(rightsMappedToRotations);
@@ -88,7 +83,7 @@ define(function(require) {
             });
 
             return directions
-                .sampledBy(this.inputs.tick)
+                .sampledBy(this.input.ticks)
                 .scan(this.props.snakeStartPosition, function (x, y) {
                     return x.add(y).mod(this.props.boardSize);
                 }.bind(this));
