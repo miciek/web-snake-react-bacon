@@ -18,7 +18,7 @@ define(function(require) {
             return {
                 initialSnakeDirection: new Position(0, 1),
                 initialSnakeLength: 3,
-                snakeStartPosition: new Position(0, 0)
+                initialSnakePosition: new Position(0, 0)
             };
         },
 
@@ -26,8 +26,7 @@ define(function(require) {
             return {
                 snakePositions: [],
                 fruitPositions: [],
-                score: 0,
-                snakeLength: this.props.initialSnakeLength
+                score: 0
             };
         },
 
@@ -41,15 +40,13 @@ define(function(require) {
             });
             var ticks = Bacon.interval(100);
             this.input = {lefts: lefts, rights: rights, ticks: ticks};
-
-            this.fruitPositions = new Bacon.Bus();
         },
 
         componentDidMount: function () {
             var headPositions = this.snakeHeadPositions();
             headPositions
                 .scan([], function (buf, x) {
-                    return _.union(_.last(buf, this.state.snakeLength), [x]);
+                    return _.last(_.union(buf, [x]), this.props.initialSnakeLength + this.state.score);
                 }.bind(this))
                 .onValue(function (snake) {
                     this.setState({
@@ -57,11 +54,6 @@ define(function(require) {
                     });
                 }.bind(this));
 
-            this.fruitPositions.onValue(function (fruit) {
-                this.setState({
-                    fruitPositions: [fruit]
-                });
-            }.bind(this));
             this.generateNewFruit();
 
             headPositions.filter(function (head) {
@@ -84,7 +76,7 @@ define(function(require) {
 
             return directions
                 .sampledBy(this.input.ticks)
-                .scan(this.props.snakeStartPosition, function (x, y) {
+                .scan(this.props.initialSnakePosition, function (x, y) {
                     return x.add(y).mod(this.props.boardSize);
                 }.bind(this));
         },
@@ -92,20 +84,21 @@ define(function(require) {
         fruitEaten: function () {
             this.setState({
                 score: this.state.score + 1,
-                snakeLength: this.state.snakeLength + 1
             });
 
             this.generateNewFruit();
         },
 
         generateNewFruit: function () {
-            this.fruitPositions.push(Position.randomPosition(this.props.boardSize));
+            this.setState({
+                fruitPositions: [Position.randomPosition(this.props.boardSize)]
+            });
         },
 
         render: function () {
             return (
                 <div className="game">
-                    <div>Score: {this.state.score}</div>
+                    <div id="log">Score: {this.state.score}</div>
                     <Board size={this.props.boardSize} snakePositions={this.state.snakePositions} fruitPositions={this.state.fruitPositions}/>
                 </div>
             );
