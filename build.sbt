@@ -2,9 +2,7 @@ name := """web-snake"""
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb).settings(
-  PlayKeys.requireJs += "main.js"
-)
+lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb)
 
 includeFilter in (Assets, LessKeys.less) := "*.less"
 
