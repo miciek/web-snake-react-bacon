@@ -83,7 +83,7 @@ define(function(require) {
 
         fruitEaten: function () {
             this.setState({
-                score: this.state.score + 1,
+                score: this.state.score + 1
             });
 
             this.generateNewFruit();
