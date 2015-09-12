@@ -4,6 +4,8 @@ version := "1.0-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb)
 
+JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
+
 includeFilter in (Assets, LessKeys.less) := "*.less"
 
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )
@@ -28,5 +30,6 @@ libraryDependencies ++= Seq(
   "org.webjars.bower" % "bacon.jquery" % "0.4.11",
   "org.webjars.bower" % "bacon.model" % "0.1.12",
   "org.webjars" % "underscorejs" % "1.8.2",
-  "org.webjars" % "jquery" % "2.1.3"
+  "org.webjars" % "jquery" % "2.1.3",
+  "org.webjars.npm" % "babel-core" % "5.8.23"
 )

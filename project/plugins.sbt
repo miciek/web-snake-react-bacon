@@ -5,6 +5,8 @@ addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.3.8")
 
 // web plugins
 
+addSbtPlugin("io.teamscala.sbt" % "sbt-babeljs" % "1.0.2")
+
 addSbtPlugin("com.github.ddispaltro" % "sbt-reactjs" % "0.5.2")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-coffeescript" % "1.0.0")
