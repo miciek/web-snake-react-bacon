@@ -1,30 +1,30 @@
-define(function(require) {
-    var React = require('react');
-    var _ = require('underscorejs');
+import React from "react"
+import _ from "underscore"
 
-    var Position = require('Position');
-    var tools = require('tools');
+import Position from "../Position"
+import tools from "../tools"
 
-    return React.createClass({
-        propTypes: {
-            snakePositions: React.PropTypes.arrayOf(Position).isRequired,
-            fruitPositions: React.PropTypes.arrayOf(Position).isRequired,
-            size: React.PropTypes.instanceOf(Position).isRequired
-        },
+import styles from "../snake.css"
 
-        render: function () {
-            var rows = _.range(this.props.size.y).map(function (y) {
-                var cells = _.range(this.props.size.x).map(function (x) {
-                    var className = "cell";
-                    if (tools.contains(this.props.snakePositions, new Position(x, y))) className += " snake";
-                    if (tools.contains(this.props.fruitPositions, new Position(x, y))) className += " fruit";
+export default React.createClass({
+    propTypes: {
+        snakePositions: React.PropTypes.arrayOf(Position).isRequired,
+        fruitPositions: React.PropTypes.arrayOf(Position).isRequired,
+        size: React.PropTypes.instanceOf(Position).isRequired
+    },
 
-                    return <div key={"r" + y + "c" + x} className={className}/>;
-                }.bind(this));
-                return <div key={y} className="row">{cells}</div>;
+    render: function () {
+        var rows = _.range(this.props.size.y).map(function (y) {
+            var cells = _.range(this.props.size.x).map(function (x) {
+                var className = styles.cell;
+                if (tools.contains(this.props.snakePositions, new Position(x, y))) className += " " + styles.snake;
+                if (tools.contains(this.props.fruitPositions, new Position(x, y))) className += " " + styles.fruit;
+
+                return <div key={"r" + y + "c" + x} className={className}/>;
             }.bind(this));
+            return <div key={y} className={styles.row}>{cells}</div>;
+        }.bind(this));
 
-            return <div className="board">{rows}</div>;
-        }
-    });
+        return <div className={styles.board}>{rows}</div>;
+    }
 });

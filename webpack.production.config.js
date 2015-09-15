@@ -24,7 +24,10 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['', '.js', '.jsx', '.css']
+    extensions: ['', '.js', '.jsx', '.css'],
+    alias: {
+      'bacon': 'baconjs'
+    }
   },
 
   postcss: [

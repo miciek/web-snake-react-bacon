@@ -1,107 +1,107 @@
-define(function(require) {
-    var React = require('react');
-    var Bacon = require('baconjs');
-    var _ = require('underscorejs');
-    var $ = require('jquery');
-    require('bacon.jquery');
+import React from "react"
+import Bacon from "baconjs"
+import _ from "underscore"
+import $ from "jquery"
+import "bacon.jquery"
 
-    var Position = require('Position');
-    var Board = require('components/Board');
-    var tools = require('tools');
+import Position from "../Position"
+import Board from "./Board"
+import tools from "../tools"
 
-    return React.createClass({
-        propTypes: {
-            boardSize: React.PropTypes.instanceOf(Position).isRequired
-        },
+import styles from "../snake.css"
 
-        getDefaultProps: function () {
-            return {
-                initialSnakeDirection: new Position(0, 1),
-                initialSnakeLength: 3,
-                initialSnakePosition: new Position(0, 0)
-            };
-        },
+export default React.createClass({
+    propTypes: {
+        boardSize: React.PropTypes.instanceOf(Position).isRequired
+    },
 
-        getInitialState: function () {
-            return {
-                snakePositions: [],
-                fruitPositions: [],
-                score: 0
-            };
-        },
+    getDefaultProps: function () {
+        return {
+            initialSnakeDirection: new Position(0, 1),
+            initialSnakeLength: 3,
+            initialSnakePosition: new Position(0, 0)
+        };
+    },
 
-        componentWillMount: function () {
-            var keys = $(document).keyupE().map('.keyCode');
-            var lefts = keys.filter(function (x) {
-                return x === 37;
-            });
-            var rights = keys.filter(function (x) {
-                return x === 39;
-            });
-            var ticks = Bacon.interval(100);
-            this.input = {lefts: lefts, rights: rights, ticks: ticks};
-        },
+    getInitialState: function () {
+        return {
+            snakePositions: [],
+            fruitPositions: [],
+            score: 0
+        };
+    },
 
-        componentDidMount: function () {
-            var headPositions = this.snakeHeadPositions();
-            headPositions
-                .scan([], function (buf, x) {
-                    return _.last(_.union(buf, [x]), this.props.initialSnakeLength + this.state.score);
-                }.bind(this))
-                .onValue(function (snake) {
-                    this.setState({
-                        snakePositions: snake
-                    });
-                }.bind(this));
+    componentWillMount: function () {
+        var keys = $(document).keyupE().map('.keyCode');
+        var lefts = keys.filter(function (x) {
+            return x === 37;
+        });
+        var rights = keys.filter(function (x) {
+            return x === 39;
+        });
+        var ticks = Bacon.interval(100);
+        this.input = {lefts: lefts, rights: rights, ticks: ticks};
+    },
 
-            this.generateNewFruit();
+    componentDidMount: function () {
+        var headPositions = this.snakeHeadPositions();
+        headPositions
+            .scan([], function (buf, x) {
+                return _.last(_.union(buf, [x]), this.props.initialSnakeLength + this.state.score);
+            }.bind(this))
+            .onValue(function (snake) {
+                this.setState({
+                    snakePositions: snake
+                });
+            }.bind(this));
 
-            headPositions.filter(function (head) {
-                return tools.contains(this.state.fruitPositions, head);
-            }.bind(this)).assign(this.fruitEaten);
-        },
+        this.generateNewFruit();
 
-        snakeHeadPositions: function () {
-            var leftsMappedToRotations = this.input.lefts.map(function () {
-                return Position.rotateLeft;
-            });
-            var rightsMappedToRotations = this.input.rights.map(function () {
-                return Position.rotateRight;
-            });
-            var actions = leftsMappedToRotations.merge(rightsMappedToRotations);
+        headPositions.filter(function (head) {
+            return tools.contains(this.state.fruitPositions, head);
+        }.bind(this)).assign(this.fruitEaten);
+    },
 
-            var directions = actions.scan(this.props.initialSnakeDirection, function (x, f) {
-                return f(x);
-            });
+    snakeHeadPositions: function () {
+        var leftsMappedToRotations = this.input.lefts.map(function () {
+            return Position.rotateLeft;
+        });
+        var rightsMappedToRotations = this.input.rights.map(function () {
+            return Position.rotateRight;
+        });
+        var actions = leftsMappedToRotations.merge(rightsMappedToRotations);
 
-            return directions
-                .sampledBy(this.input.ticks)
-                .scan(this.props.initialSnakePosition, function (x, y) {
-                    return x.add(y).mod(this.props.boardSize);
-                }.bind(this));
-        },
+        var directions = actions.scan(this.props.initialSnakeDirection, function (x, f) {
+            return f(x);
+        });
 
-        fruitEaten: function () {
-            this.setState({
-                score: this.state.score + 1
-            });
+        return directions
+            .sampledBy(this.input.ticks)
+            .scan(this.props.initialSnakePosition, function (x, y) {
+                return x.add(y).mod(this.props.boardSize);
+            }.bind(this));
+    },
 
-            this.generateNewFruit();
-        },
+    fruitEaten: function () {
+        this.setState({
+            score: this.state.score + 1
+        });
 
-        generateNewFruit: function () {
-            this.setState({
-                fruitPositions: [Position.randomPosition(this.props.boardSize)]
-            });
-        },
+        this.generateNewFruit();
+    },
 
-        render: function () {
-            return (
-                <div className="game">
-                    <div id="log">Score: {this.state.score}</div>
-                    <Board size={this.props.boardSize} snakePositions={this.state.snakePositions} fruitPositions={this.state.fruitPositions}/>
-                </div>
-            );
-        }
-    });
+    generateNewFruit: function () {
+        this.setState({
+            fruitPositions: [Position.randomPosition(this.props.boardSize)]
+        });
+    },
+
+    render: function () {
+        return (
+            <div className={styles.game}>
+                <div id={styles.log}>Score: {this.state.score}</div>
+                <Board size={this.props.boardSize} snakePositions={this.state.snakePositions} fruitPositions={this.state.fruitPositions}/>
+            </div>
+        );
+    }
 });

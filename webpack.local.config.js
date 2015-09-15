@@ -48,7 +48,10 @@ module.exports = {
 
   // Automatically transform files with these extensions
   resolve: {
-    extensions: ['', '.js', '.jsx', '.css']
+    extensions: ['', '.js', '.jsx', '.css'],
+    alias: {
+      'bacon': 'baconjs'
+    }
   },
 
   // Additional plugins for CSS post processing using postcss-loader

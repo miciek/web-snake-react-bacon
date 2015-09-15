@@ -1,23 +1,10 @@
-require.config({
-    paths: {
-        'jquery': "../lib/jquery/jquery",
-        'underscorejs': "../lib/underscorejs/underscore",
-        'baconjs': "../lib/baconjs/Bacon",
-        'bacon.model': "../lib/bacon.model/dist/bacon.model",
-        'bacon.jquery': "../lib/bacon.jquery/dist/bacon.jquery"
-    },
+import "babel-core/polyfill"
+import React from "react"
 
-    shim: {
-        'underscorejs': {
-            exports: '_'
-        }
-    }
-});
+import "./snake.css"
+import Position from "./Position"
+import SnakeGame from "./components/SnakeGame"
 
-require(['react', 'Position', 'components/SnakeGame'], function(React, Position, SnakeGame) {
-    'use strict';
-    $(document).ready(function() {
-        React.initializeTouchEvents();
-        React.render(<SnakeGame boardSize={new Position(20, 20)} />, document.getElementById('container'));
-    });
-});
+const DOM_APP_EL_ID = "app";
+
+React.render(<SnakeGame boardSize={new Position(20, 20)} />, document.getElementById(DOM_APP_EL_ID));

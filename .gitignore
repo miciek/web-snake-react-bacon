@@ -15,4 +15,5 @@ dist
 /.settings
 *.log
 node_modules/
-*app.js
+build/*.js
+build/*.css
