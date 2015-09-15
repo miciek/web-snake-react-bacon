@@ -8,3 +8,5 @@ The current version uses:
 - Bacon.js
 - Flexbox
 - Underscore.js
+
+Based on great [Essential React Template](https://github.com/pheuter/essential-react).
