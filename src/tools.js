@@ -1,8 +1,8 @@
 export default {
-    contains: function(arr, x) {
+    contains(arr, x) {
         for (var i in arr) {
-            if (arr[i].equals(x)) return true;
+            if (arr[i].equals(x)) return true
         }
-        return false;
+        return false
     }
-};
+}

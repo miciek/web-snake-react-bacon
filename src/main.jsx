@@ -5,6 +5,6 @@ import "./snake.css"
 import Position from "./Position"
 import SnakeGame from "./components/SnakeGame"
 
-const DOM_APP_EL_ID = "app";
+const DOM_APP_EL_ID = "app"
 
-React.render(<SnakeGame boardSize={new Position(20, 20)} />, document.getElementById(DOM_APP_EL_ID));
+React.render(<SnakeGame boardSize={new Position(20, 20)} />, document.getElementById(DOM_APP_EL_ID))

@@ -16,15 +16,15 @@ export default React.createClass({
     render: function () {
         var rows = _.range(this.props.size.y).map(function (y) {
             var cells = _.range(this.props.size.x).map(function (x) {
-                var className = styles.cell;
-                if (tools.contains(this.props.snakePositions, new Position(x, y))) className += " " + styles.snake;
-                if (tools.contains(this.props.fruitPositions, new Position(x, y))) className += " " + styles.fruit;
+                var className = styles.cell
+                if (tools.contains(this.props.snakePositions, new Position(x, y))) className += " " + styles.snake
+                if (tools.contains(this.props.fruitPositions, new Position(x, y))) className += " " + styles.fruit
 
-                return <div key={"r" + y + "c" + x} className={className}/>;
-            }.bind(this));
-            return <div key={y} className={styles.row}>{cells}</div>;
-        }.bind(this));
+                return <div key={"r" + y + "c" + x} className={className}/>
+            }.bind(this))
+            return <div key={y} className={styles.row}>{cells}</div>
+        }.bind(this))
 
-        return <div className={styles.board}>{rows}</div>;
+        return <div className={styles.board}>{rows}</div>
     }
-});
+})
