@@ -6,7 +6,7 @@ var app = express();
  *
  * Express routes for:
  *   - app.js
- *   - style.css
+ *   - snake.css
  *   - index.html
  *
  *   Sample endpoints to demo async data fetching:
@@ -27,9 +27,9 @@ app.get('/app.js', function(req, res) {
 // Serve aggregate stylesheet depending on environment
 app.get('/style.css', function(req, res) {
   if (process.env.PRODUCTION) {
-    res.sendFile(__dirname + '/build/style.css');
+    res.sendFile(__dirname + '/build/snake.css');
   } else {
-    res.redirect('//localhost:9090/build/style.css');
+    res.redirect('//localhost:9090/build/snake.css');
   }
 });
 
@@ -88,5 +88,5 @@ var server = app.listen(port, function () {
   var host = server.address().address;
   var port = server.address().port;
 
-  console.log('Essential React listening at http://%s:%s', host, port);
+  console.log('web-snake listening at http://%s:%s', host, port);
 });

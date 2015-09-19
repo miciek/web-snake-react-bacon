@@ -13,7 +13,7 @@ module.exports = {
   },
 
   plugins: [
-    new ExtractTextPlugin('style.css', { allChunks: true })
+    new ExtractTextPlugin('snake.css', { allChunks: true })
   ],
 
   module: {
