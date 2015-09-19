@@ -13,7 +13,7 @@ export default class Board extends React.Component {
         size: React.PropTypes.instanceOf(Position).isRequired,
     }
 
-    render = () => {
+    render() {
         const rows = _.range(this.props.size.y).map(y => {
             const cells = _.range(this.props.size.x).map(x => {
                 let className = styles.cell

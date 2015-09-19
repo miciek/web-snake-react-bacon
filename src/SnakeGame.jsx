@@ -36,7 +36,7 @@ export default class SnakeGame extends React.Component {
         this.input = { lefts: lefts, rights: rights, ticks: ticks }
     }
 
-    componentDidMount = () => {
+    componentDidMount() {
         const headPositions = this.snakeHeadPositions()
         headPositions
             .scan([], (buf, x) => _.last(_.union(buf, [x]), this.props.initialSnakeLength + this.state.score))
@@ -52,7 +52,7 @@ export default class SnakeGame extends React.Component {
                      .assign(this.fruitEaten)
     }
 
-    snakeHeadPositions = () => {
+    snakeHeadPositions() {
         const leftsMappedToRotations = this.input.lefts.map(() => Position.rotateLeft)
         const rightsMappedToRotations = this.input.rights.map(() => Position.rotateRight)
         const actions = leftsMappedToRotations.merge(rightsMappedToRotations)
@@ -64,7 +64,7 @@ export default class SnakeGame extends React.Component {
             .scan(this.props.initialSnakePosition, (x, y) => x.add(y).mod(this.props.boardSize))
     }
 
-    fruitEaten = () => {
+    fruitEaten() {
         this.setState({
             score: this.state.score + 1
         })
@@ -72,13 +72,13 @@ export default class SnakeGame extends React.Component {
         this.generateNewFruit()
     }
 
-    generateNewFruit = () => {
+    generateNewFruit() {
         this.setState({
             fruitPositions: [Position.randomPosition(this.props.boardSize)]
         })
     }
 
-    render = () => {
+    render() {
         return (
             <div className={styles.game}>
                 <div id={styles.log}>Score: {this.state.score}</div>
