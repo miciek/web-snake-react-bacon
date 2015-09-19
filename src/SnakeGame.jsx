@@ -4,11 +4,11 @@ import _ from "underscore"
 import $ from "jquery"
 import "bacon.jquery"
 
-import Position from "../Position"
+import Position from "./Position"
 import Board from "./Board"
-import tools from "../tools"
+import tools from "./tools"
 
-import styles from "../style.css"
+import styles from "./style.css"
 
 export default class SnakeGame extends React.Component {
     static propTypes = {

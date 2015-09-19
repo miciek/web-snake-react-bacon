@@ -3,7 +3,7 @@ import React from "react"
 
 import "./style.css"
 import Position from "./Position"
-import SnakeGame from "./components/SnakeGame"
+import SnakeGame from "./SnakeGame"
 
 const DOM_APP_EL_ID = "app"
 

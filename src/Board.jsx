@@ -1,10 +1,10 @@
 import React from "react"
 import _ from "underscore"
 
-import Position from "../Position"
-import tools from "../tools"
+import Position from "./Position"
+import tools from "./tools"
 
-import styles from "../style.css"
+import styles from "./style.css"
 
 export default class Board extends React.Component {
     static propTypes = {
