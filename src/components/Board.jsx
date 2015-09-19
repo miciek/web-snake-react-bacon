@@ -4,7 +4,7 @@ import _ from "underscore"
 import Position from "../Position"
 import tools from "../tools"
 
-import styles from "../snake.css"
+import styles from "../style.css"
 
 export default React.createClass({
     propTypes: {

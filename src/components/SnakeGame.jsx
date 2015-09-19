@@ -8,7 +8,7 @@ import Position from "../Position"
 import Board from "./Board"
 import tools from "../tools"
 
-import styles from "../snake.css"
+import styles from "../style.css"
 
 export default class SnakeGame extends React.Component {
     static propTypes = {

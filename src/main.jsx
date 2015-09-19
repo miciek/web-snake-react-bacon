@@ -1,7 +1,7 @@
 import "babel-core/polyfill"
 import React from "react"
 
-import "./snake.css"
+import "./style.css"
 import Position from "./Position"
 import SnakeGame from "./components/SnakeGame"
 
