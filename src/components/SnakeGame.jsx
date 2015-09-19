@@ -10,93 +10,75 @@ import tools from "../tools"
 
 import styles from "../snake.css"
 
-export default React.createClass({
-    propTypes: {
-        boardSize: React.PropTypes.instanceOf(Position).isRequired
-    },
+export default class SnakeGame extends React.Component {
+    static propTypes = {
+        boardSize: React.PropTypes.instanceOf(Position).isRequired,
+    }
 
-    getDefaultProps: function () {
-        return {
-            initialSnakeDirection: new Position(0, 1),
-            initialSnakeLength: 3,
-            initialSnakePosition: new Position(0, 0)
-        }
-    },
+    static defaultProps = {
+        initialSnakeDirection: new Position(0, 1),
+        initialSnakeLength: 3,
+        initialSnakePosition: new Position(0, 0),
+    }
 
-    getInitialState: function () {
-        return {
-            snakePositions: [],
-            fruitPositions: [],
-            score: 0
-        }
-    },
+    state = {
+        snakePositions: [],
+        fruitPositions: [],
+        score: 0,
+    }
 
-    componentWillMount: function () {
-        var keys = $(document).keyupE().map('.keyCode')
-        var lefts = keys.filter(function (x) {
-            return x === 37
-        })
-        var rights = keys.filter(function (x) {
-            return x === 39
-        })
-        var ticks = Bacon.interval(100)
-        this.input = {lefts: lefts, rights: rights, ticks: ticks}
-    },
+    constructor(props) {
+        super(props)
+        const keys = $(document).keyupE().map('.keyCode')
+        const lefts = keys.filter(x => x === 37)
+        const rights = keys.filter(x => x === 39)
+        const ticks = Bacon.interval(100)
+        this.input = { lefts: lefts, rights: rights, ticks: ticks }
+    }
 
-    componentDidMount: function () {
-        var headPositions = this.snakeHeadPositions()
+    componentDidMount = () => {
+        const headPositions = this.snakeHeadPositions()
         headPositions
-            .scan([], function (buf, x) {
-                return _.last(_.union(buf, [x]), this.props.initialSnakeLength + this.state.score)
-            }.bind(this))
-            .onValue(function (snake) {
+            .scan([], (buf, x) => _.last(_.union(buf, [x]), this.props.initialSnakeLength + this.state.score))
+            .onValue(snake => {
                 this.setState({
                     snakePositions: snake
                 })
-            }.bind(this))
+            })
 
         this.generateNewFruit()
 
-        headPositions.filter(function (head) {
-            return tools.contains(this.state.fruitPositions, head)
-        }.bind(this)).assign(this.fruitEaten)
-    },
+        headPositions.filter(head => tools.contains(this.state.fruitPositions, head))
+                     .assign(this.fruitEaten)
+    }
 
-    snakeHeadPositions: function () {
-        var leftsMappedToRotations = this.input.lefts.map(function () {
-            return Position.rotateLeft
-        })
-        var rightsMappedToRotations = this.input.rights.map(function () {
-            return Position.rotateRight
-        })
-        var actions = leftsMappedToRotations.merge(rightsMappedToRotations)
+    snakeHeadPositions = () => {
+        const leftsMappedToRotations = this.input.lefts.map(() => Position.rotateLeft)
+        const rightsMappedToRotations = this.input.rights.map(() => Position.rotateRight)
+        const actions = leftsMappedToRotations.merge(rightsMappedToRotations)
 
-        var directions = actions.scan(this.props.initialSnakeDirection, function (x, f) {
-            return f(x)
-        })
+        const directions = actions.scan(this.props.initialSnakeDirection, (x, f) => f(x))
 
         return directions
             .sampledBy(this.input.ticks)
-            .scan(this.props.initialSnakePosition, function (x, y) {
-                return x.add(y).mod(this.props.boardSize)
-            }.bind(this))
-    },
+            .scan(this.props.initialSnakePosition, (x, y) => x.add(y).mod(this.props.boardSize))
+    }
 
-    fruitEaten: function () {
+    fruitEaten = () => {
         this.setState({
             score: this.state.score + 1
         })
 
         this.generateNewFruit()
-    },
+    }
 
-    generateNewFruit: function () {
+    generateNewFruit = () => {
         this.setState({
             fruitPositions: [Position.randomPosition(this.props.boardSize)]
         })
-    },
+    }
 
-    render: function () {
+    render = () => {
         return (
             <div className={styles.game}>
                 <div id={styles.log}>Score: {this.state.score}</div>
@@ -104,4 +86,4 @@ export default React.createClass({
             </div>
         )
     }
-})
+}
