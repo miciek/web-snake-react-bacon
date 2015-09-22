@@ -23,7 +23,7 @@ export default class SnakeGame extends React.Component {
 
     state = {
         snakePositions: [],
-        fruitPositions: [],
+        fruitPositions: [Position.randomPosition(this.props.boardSize)],
         score: 0,
     }
 
@@ -40,16 +40,13 @@ export default class SnakeGame extends React.Component {
         const headPositions = this.snakeHeadPositions()
         headPositions
             .scan([], (buf, x) => _.last(_.union(buf, [x]), this.props.initialSnakeLength + this.state.score))
-            .onValue(snake => {
-                this.setState({
-                    snakePositions: snake
-                })
-            })
+            .onValue(snake => this.setState({ snakePositions: snake }))
 
-        this.generateNewFruit()
+        const fruitEatenEvents = headPositions.filter(head => tools.contains(this.state.fruitPositions, head))
+        fruitEatenEvents.onValue(() => this.setState({ score: this.state.score + 1 }))
 
-        headPositions.filter(head => tools.contains(this.state.fruitPositions, head))
-                     .assign(this.fruitEaten)
+        fruitEatenEvents.map(() => Position.randomPosition(this.props.boardSize))
+                        .onValue(position => this.setState({ fruitPositions: [position] }))
     }
 
     snakeHeadPositions() {
@@ -62,20 +59,6 @@ export default class SnakeGame extends React.Component {
         return directions
             .sampledBy(this.input.ticks)
             .scan(this.props.initialSnakePosition, (x, y) => x.add(y).mod(this.props.boardSize))
-    }
-
-    fruitEaten() {
-        this.setState({
-            score: this.state.score + 1
-        })
-
-        this.generateNewFruit()
-    }
-
-    generateNewFruit() {
-        this.setState({
-            fruitPositions: [Position.randomPosition(this.props.boardSize)]
-        })
     }
 
     render() {
