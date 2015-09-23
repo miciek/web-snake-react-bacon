@@ -1,8 +1,6 @@
 import React from "react"
 import Bacon from "baconjs"
 import _ from "underscore"
-import $ from "jquery"
-import "bacon.jquery"
 
 import Position from "./Position"
 import Board from "./Board"
@@ -29,7 +27,7 @@ export default class SnakeGame extends React.Component {
 
     constructor(props) {
         super(props)
-        const keys = $(document).keyupE().map('.keyCode')
+        const keys = Bacon.fromEvent(document.body, "keyup").map('.keyCode')
         const lefts = keys.filter(x => x === 37)
         const rights = keys.filter(x => x === 39)
         const ticks = Bacon.interval(100)

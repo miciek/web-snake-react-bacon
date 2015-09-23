@@ -14,8 +14,9 @@
   "keywords": [
     "tutorial",
     "playground",
-    "react",
     "javascript",
+    "react",
+    "baconjs",
     "game",
     "snake"
   ],
@@ -42,9 +43,6 @@
   "dependencies": {
     "react": "^0.13.3",
     "baconjs": "^0.7.73",
-    "underscore": "^1.8.3",
-    "jquery": "^2.1.4",
-    "bacon.model": "^0.1.12",
-    "bacon.jquery": "^0.4.12"
+    "underscore": "^1.8.3"
   }
 }
