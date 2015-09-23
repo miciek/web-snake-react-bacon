@@ -25,13 +25,12 @@ export default class SnakeGame extends React.Component {
         score: 0,
     }
 
-    constructor(props) {
-        super(props)
+    inputStreams() {
         const keys = Bacon.fromEvent(document.body, "keyup").map('.keyCode')
         const lefts = keys.filter(x => x === 37)
         const rights = keys.filter(x => x === 39)
         const ticks = Bacon.interval(100)
-        this.input = { lefts: lefts, rights: rights, ticks: ticks }
+        return { lefts: lefts, rights: rights, ticks: ticks }
     }
 
     componentDidMount() {
@@ -48,14 +47,15 @@ export default class SnakeGame extends React.Component {
     }
 
     snakeHeadPositions() {
-        const leftsMappedToRotations = this.input.lefts.map(() => Position.rotateLeft)
-        const rightsMappedToRotations = this.input.rights.map(() => Position.rotateRight)
+        const { lefts, rights, ticks } = this.inputStreams()
+        const leftsMappedToRotations = lefts.map(() => Position.rotateLeft)
+        const rightsMappedToRotations = rights.map(() => Position.rotateRight)
         const actions = leftsMappedToRotations.merge(rightsMappedToRotations)
 
         const directions = actions.scan(this.props.initialSnakeDirection, (x, f) => f(x))
 
         return directions
-            .sampledBy(this.input.ticks)
+            .sampledBy(ticks)
             .scan(this.props.initialSnakePosition, (x, y) => x.add(y).mod(this.props.boardSize))
     }
 
