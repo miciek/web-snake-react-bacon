@@ -2,7 +2,7 @@ import React from "react"
 import Bacon from "baconjs"
 import _ from "underscore"
 
-import Position from "./Position"
+import Vector from "./Vector"
 import Board from "./Board"
 import tools from "./tools"
 
@@ -10,18 +10,18 @@ import styles from "./style.css"
 
 export default class SnakeGame extends React.Component {
     static propTypes = {
-        boardSize: React.PropTypes.instanceOf(Position).isRequired,
+        boardSize: React.PropTypes.instanceOf(Vector).isRequired,
     }
 
     static defaultProps = {
-        initialSnakeDirection: new Position(0, 1),
+        initialSnakeDirection: new Vector(0, 1),
         initialSnakeLength: 3,
-        initialSnakePosition: new Position(0, 0),
+        initialSnakePosition: new Vector(0, 0),
     }
 
     state = {
         snakePositions: [],
-        fruitPositions: [Position.randomPosition(this.props.boardSize)],
+        fruitPositions: [Vector.random(this.props.boardSize)],
         score: 0,
     }
 
@@ -42,14 +42,14 @@ export default class SnakeGame extends React.Component {
         const fruitEatenEvents = headPositions.filter(head => tools.contains(this.state.fruitPositions, head))
         fruitEatenEvents.onValue(() => this.setState({ score: this.state.score + 1 }))
 
-        fruitEatenEvents.map(() => Position.randomPosition(this.props.boardSize))
+        fruitEatenEvents.map(() => Vector.random(this.props.boardSize))
                         .onValue(position => this.setState({ fruitPositions: [position] }))
     }
 
     snakeHeadPositions() {
         const { lefts, rights, ticks } = this.inputStreams()
-        const leftsMappedToRotations = lefts.map(() => Position.rotateLeft)
-        const rightsMappedToRotations = rights.map(() => Position.rotateRight)
+        const leftsMappedToRotations = lefts.map(() => Vector.rotateLeft)
+        const rightsMappedToRotations = rights.map(() => Vector.rotateRight)
         const actions = leftsMappedToRotations.merge(rightsMappedToRotations)
 
         const directions = actions.scan(this.props.initialSnakeDirection, (x, f) => f(x))
