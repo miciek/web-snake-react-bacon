@@ -62,7 +62,7 @@ export default class SnakeGame extends React.Component {
         return (
             <div className={styles.game}>
                 <div id={styles.log}>Score: {this.state.score}</div>
-                <Board size={this.props.boardSize} snakePositions={this.state.snakePositions} fruitPositions={[this.state.fruitPosition]}/>
+                <Board size={this.props.boardSize} snakePositions={this.state.snakePositions} fruitPosition={this.state.fruitPosition}/>
             </div>
         )
     }
