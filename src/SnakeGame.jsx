@@ -4,7 +4,6 @@ import _ from "underscore"
 
 import Vector from "./Vector"
 import Board from "./Board"
-import tools from "./tools"
 
 import styles from "./style.css"
 
@@ -21,7 +20,7 @@ export default class SnakeGame extends React.Component {
 
     state = {
         snakePositions: [],
-        fruitPositions: [Vector.random(this.props.boardSize)],
+        fruitPosition: Vector.random(this.props.boardSize),
         score: 0,
     }
 
@@ -30,7 +29,7 @@ export default class SnakeGame extends React.Component {
         const lefts = keys.filter(x => x === 37)
         const rights = keys.filter(x => x === 39)
         const ticks = Bacon.interval(100)
-        return { lefts: lefts, rights: rights, ticks: ticks }
+        return { lefts, rights, ticks }
     }
 
     componentDidMount() {
@@ -39,11 +38,11 @@ export default class SnakeGame extends React.Component {
             .scan([], (buf, x) => _.last(_.union(buf, [x]), this.props.initialSnakeLength + this.state.score))
             .onValue(snake => this.setState({ snakePositions: snake }))
 
-        const fruitEatenEvents = headPositions.filter(head => tools.contains(this.state.fruitPositions, head))
+        const fruitEatenEvents = headPositions.filter(head => head.equals(this.state.fruitPosition))
         fruitEatenEvents.onValue(() => this.setState({ score: this.state.score + 1 }))
 
         fruitEatenEvents.map(() => Vector.random(this.props.boardSize))
-                        .onValue(position => this.setState({ fruitPositions: [position] }))
+                        .onValue(position => this.setState({ fruitPosition: position }))
     }
 
     snakeHeadPositions() {
@@ -63,7 +62,7 @@ export default class SnakeGame extends React.Component {
         return (
             <div className={styles.game}>
                 <div id={styles.log}>Score: {this.state.score}</div>
-                <Board size={this.props.boardSize} snakePositions={this.state.snakePositions} fruitPositions={this.state.fruitPositions}/>
+                <Board size={this.props.boardSize} snakePositions={this.state.snakePositions} fruitPositions={[this.state.fruitPosition]}/>
             </div>
         )
     }
