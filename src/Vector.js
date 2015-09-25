@@ -4,12 +4,12 @@ export default class Vector {
       this.y = y
     }
 
-    equals(p) {
-        return this.x === p.x && this.y === p.y
+    equals(v) {
+        return this.x === v.x && this.y === v.y
     }
 
-    add(p) {
-        return new Vector(this.x + p.x, this.y + p.y)
+    add(v) {
+        return new Vector(this.x + v.x, this.y + v.y)
     }
 
     mod(size) {
@@ -23,11 +23,11 @@ export default class Vector {
         )
     }
 
-    static rotateRight(pos) {
-        return new Vector(-pos.y, pos.x)
+    static rotateRight(vec) {
+        return new Vector(-vec.y, vec.x)
     }
 
-    static rotateLeft(pos) {
-        return new Vector(pos.y, -pos.x)
+    static rotateLeft(vec) {
+        return new Vector(vec.y, -vec.x)
     }
 }

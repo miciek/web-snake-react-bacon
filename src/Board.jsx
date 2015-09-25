@@ -3,7 +3,7 @@ import _ from "underscore"
 
 import Vector from "./Vector"
 
-import styles from "./style.css"
+import style from "./style.css"
 import classNames from "classnames"
 
 export default class Board extends React.Component {
@@ -18,13 +18,13 @@ export default class Board extends React.Component {
     const rows = _.range(size.y).map(y => {
       const cells = _.range(size.x).map(x => {
         const pos = new Vector(x, y)
-        const maybeSnakeStyle = { [styles.snake]: snakePositions.find(x => x.equals(pos)) }
-        const maybeFruitStyle = { [styles.fruit]: fruitPosition.equals(pos) }
-        return <div key={x} className={ classNames(styles.cell, maybeSnakeStyle, maybeFruitStyle) }/>
+        const maybeSnakeStyle = { [style.snake]: snakePositions.find(x => x.equals(pos)) }
+        const maybeFruitStyle = { [style.fruit]: fruitPosition.equals(pos) }
+        return <div key={x} className={ classNames(style.cell, maybeSnakeStyle, maybeFruitStyle) }/>
       })
-      return <div key={y} className={styles.row}>{cells}</div>
+      return <div key={y} className={style.row}>{cells}</div>
     })
 
-    return <div className={styles.board}>{rows}</div>
+    return <div className={style.board}>{rows}</div>
   }
 }

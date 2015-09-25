@@ -5,7 +5,7 @@ import _ from "underscore"
 import Vector from "./Vector"
 import Board from "./Board"
 
-import styles from "./style.css"
+import style from "./style.css"
 
 export default class SnakeGame extends React.Component {
     static propTypes = {
@@ -33,7 +33,7 @@ export default class SnakeGame extends React.Component {
     }
 
     componentDidMount() {
-        const headPositions = this.snakeHeadPositions()
+        const headPositions = this.snakeHeadPositions(this.inputStreams())
         headPositions
             .scan([], (buf, x) => _.last(_.union(buf, [x]), this.props.initialSnakeLength + this.state.score))
             .onValue(snake => this.setState({ snakePositions: snake }))
@@ -45,11 +45,10 @@ export default class SnakeGame extends React.Component {
                         .onValue(position => this.setState({ fruitPosition: position }))
     }
 
-    snakeHeadPositions() {
-        const { lefts, rights, ticks } = this.inputStreams()
-        const leftsMappedToRotations = lefts.map(() => Vector.rotateLeft)
-        const rightsMappedToRotations = rights.map(() => Vector.rotateRight)
-        const actions = leftsMappedToRotations.merge(rightsMappedToRotations)
+    snakeHeadPositions({ lefts, rights, ticks }) {
+        const leftRotations = lefts.map(() => Vector.rotateLeft)
+        const rightRotations = rights.map(() => Vector.rotateRight)
+        const actions = leftRotations.merge(rightRotations)
 
         const directions = actions.scan(this.props.initialSnakeDirection, (x, f) => f(x))
 
@@ -60,8 +59,8 @@ export default class SnakeGame extends React.Component {
 
     render() {
         return (
-            <div className={styles.game}>
-                <div id={styles.log}>Score: {this.state.score}</div>
+            <div className={style.game}>
+                <div id={style.log}>Score: {this.state.score}</div>
                 <Board size={this.props.boardSize} snakePositions={this.state.snakePositions} fruitPosition={this.state.fruitPosition}/>
             </div>
         )
