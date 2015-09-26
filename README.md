@@ -9,4 +9,10 @@ The current version uses:
 - Flexbox
 - Underscore.js
 
+Usage
+-----
+Do `npm install` and then `npm start`.
+
+Acknowledgements
+-----
 Based on great [Essential React Template](https://github.com/pheuter/essential-react).
