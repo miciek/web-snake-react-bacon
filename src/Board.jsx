@@ -8,9 +8,9 @@ import classNames from "classnames"
 
 export default class Board extends React.Component {
   static propTypes = {
-    snakePositions: React.PropTypes.arrayOf(Vector).isRequired,
-    fruitPosition: React.PropTypes.instanceOf(Vector).isRequired,
     size: React.PropTypes.instanceOf(Vector).isRequired,
+    snakePositions: React.PropTypes.arrayOf(Vector).isRequired,
+    fruitPosition: React.PropTypes.instanceOf(Vector).isRequired
   }
 
   render() {
