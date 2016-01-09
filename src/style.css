@@ -34,6 +34,10 @@ body {
     background-color: #ff5605;
 }
 
+.opponent {
+    background-color: #aaa;
+}
+
 #log {
     width: 337px;
     height: 1.5em;

@@ -10,6 +10,7 @@ export default class MultiSnakeGame extends React.Component {
   static propTypes = {
     boardSize: React.PropTypes.instanceOf(Vector).isRequired,
     gameEvents: React.PropTypes.instanceOf(Bacon.EventStream).isRequired,
+    playerName: React.PropTypes.string.isRequired,
     onNewSnake: React.PropTypes.func.isRequired
   }
 
@@ -22,7 +23,9 @@ export default class MultiSnakeGame extends React.Component {
   state = {
     snakePositions: [],
     fruitPosition: Vector.random(this.props.boardSize),
-    score: 0
+    score: 0,
+    opponentPositions: [],
+    opponentScore: 0
   }
 
   inputStreams() {
@@ -44,6 +47,13 @@ export default class MultiSnakeGame extends React.Component {
               .scan(this.props.initialSnakePosition, (pos, dir) => pos.add(dir).mod(this.props.boardSize))
   }
 
+  reactToGameEvents(gameEvents) {
+    const opponentEvents = gameEvents.filter(event => event.playerName !== this.props.playerName)
+    const opponentPositions = opponentEvents.map(event => event.positions)
+    opponentPositions.onValue(positions => this.setState({ opponentPositions: positions }))
+    opponentPositions.log()
+  }
+
   componentDidMount() {
     const snakeHeadPositions = this.snakeHeadPositions(this.inputStreams())
     const snakes = snakeHeadPositions.scan([], (snake, head) => {
@@ -58,13 +68,14 @@ export default class MultiSnakeGame extends React.Component {
     fruitEatenEvents.onValue(() => this.setState({ score: this.state.score + 1 }))
     fruitEatenEvents.map(() => Vector.random(this.props.boardSize))
                     .onValue(fruit => this.setState({ fruitPosition: fruit }))
+    this.reactToGameEvents(this.props.gameEvents)
   }
 
   render() {
     return (
       <div className={style.game}>
-        <div className={style.log}>Score: {this.state.score}</div>
-        <Board size={this.props.boardSize} snakePositions={this.state.snakePositions} fruitPosition={this.state.fruitPosition}/>
+        <div className={style.log}>Score: <b>{this.state.score}</b> vs {this.state.opponentScore}</div>
+        <Board size={this.props.boardSize} snakePositions={this.state.snakePositions} fruitPosition={this.state.fruitPosition} opponentPositions={this.state.opponentPositions} />
       </div>
     )
   }

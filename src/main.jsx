@@ -12,13 +12,18 @@ const ws = new WebSocket("ws://localhost:8080/snakeSocket")
 const playerName = window.location.pathname.substr(1)
 
 ws.onopen = () => {
-  const gameEvents = Bacon.fromEvent(ws, "message").map(".data")
+  const wsMessages = Bacon.fromEvent(ws, "message").map(".data")
+  const gameEvents = wsMessages.map(msg => JSON.parse(msg))
 
   const newSnakeCallback = (snakePositions) => {
-    ws.send(JSON.stringify({ name: playerName, s: snakePositions }))
+    ws.send(JSON.stringify({ playerName: playerName, positions: snakePositions }))
   }
 
-  React.render(<MultiSnakeGame boardSize={new Vector(20, 20)} gameEvents={gameEvents} onNewSnake={newSnakeCallback} />, document.getElementById("app"))
+  React.render(<MultiSnakeGame
+                        boardSize={new Vector(20, 20)}
+                        gameEvents={gameEvents}
+                        playerName={playerName}
+                        onNewSnake={newSnakeCallback} />, document.getElementById("app"))
 }
 
 // TODO: single or multiplayer mode switched by URL param
