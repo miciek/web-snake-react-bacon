@@ -52,7 +52,14 @@ export default class MultiSnakeGame extends React.Component {
     const opponentEvents = playerStates.filter(event => event.playerName !== this.props.playerName)
     const opponentPositions = opponentEvents.map(event => event.positions)
     opponentPositions.onValue(positions => this.setState({ opponentPositions: positions }))
-    opponentPositions.log()
+
+    const myScores = playerStates
+                        .filter(event => event.playerName === this.props.playerName)
+                        .map(".score")
+    myScores.onValue(score => this.setState({ score: score }))
+
+    const opponentScores = opponentEvents.map(".score")
+    opponentScores.onValue(score => this.setState({ opponentScore: score }))
   }
 
   componentDidMount() {
