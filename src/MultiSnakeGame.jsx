@@ -9,8 +9,9 @@ import style from "./style"
 export default class MultiSnakeGame extends React.Component {
   static propTypes = {
     boardSize: React.PropTypes.instanceOf(Vector).isRequired,
-    gameEvents: React.PropTypes.instanceOf(Bacon.EventStream).isRequired,
     playerName: React.PropTypes.string.isRequired,
+    playerStates: React.PropTypes.instanceOf(Bacon.EventStream).isRequired,
+    fruitStates: React.PropTypes.instanceOf(Bacon.EventStream).isRequired,
     onNewSnake: React.PropTypes.func.isRequired
   }
 
@@ -22,7 +23,7 @@ export default class MultiSnakeGame extends React.Component {
 
   state = {
     snakePositions: [],
-    fruitPosition: Vector.random(this.props.boardSize),
+    fruitPosition: new Vector(-1, -1),
     score: 0,
     opponentPositions: [],
     opponentScore: 0
@@ -47,8 +48,8 @@ export default class MultiSnakeGame extends React.Component {
               .scan(this.props.initialSnakePosition, (pos, dir) => pos.add(dir).mod(this.props.boardSize))
   }
 
-  reactToGameEvents(gameEvents) {
-    const opponentEvents = gameEvents.filter(event => event.playerName !== this.props.playerName)
+  reactToPlayerStates(playerStates) {
+    const opponentEvents = playerStates.filter(event => event.playerName !== this.props.playerName)
     const opponentPositions = opponentEvents.map(event => event.positions)
     opponentPositions.onValue(positions => this.setState({ opponentPositions: positions }))
     opponentPositions.log()
@@ -64,11 +65,8 @@ export default class MultiSnakeGame extends React.Component {
     snakes.onValue(snake => this.setState({ snakePositions: snake }))
     snakes.onValue(snake => this.props.onNewSnake(snake))
 
-    const fruitEatenEvents = snakeHeadPositions.filter(head => head.equals(this.state.fruitPosition))
-    fruitEatenEvents.onValue(() => this.setState({ score: this.state.score + 1 }))
-    fruitEatenEvents.map(() => Vector.random(this.props.boardSize))
-                    .onValue(fruit => this.setState({ fruitPosition: fruit }))
-    this.reactToGameEvents(this.props.gameEvents)
+    this.reactToPlayerStates(this.props.playerStates)
+    this.props.fruitStates.onValue(fruit => this.setState({ fruitPosition: fruit }))
   }
 
   render() {

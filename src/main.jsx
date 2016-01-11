@@ -6,6 +6,7 @@ import SnakeGame from "./SnakeGame"
 import MultiSnakeGame from "./MultiSnakeGame"
 import Board from "./Board"
 import Bacon from "baconjs"
+import _ from "underscore"
 
 // TODO: what happens when server is unavailable for a while and socket closes?
 const ws = new WebSocket("ws://localhost:8080/snakeSocket")
@@ -13,7 +14,8 @@ const playerName = window.location.pathname.substr(1)
 
 ws.onopen = () => {
   const wsMessages = Bacon.fromEvent(ws, "message").map(".data")
-  const gameEvents = wsMessages.map(msg => JSON.parse(msg))
+  const playerStates = wsMessages.map(msg => JSON.parse(msg))
+  const fruitStates = playerStates.map(state => state.fruitPosition)
 
   const newSnakeCallback = (snakePositions) => {
     ws.send(JSON.stringify({ playerName: playerName, positions: snakePositions }))
@@ -21,8 +23,9 @@ ws.onopen = () => {
 
   React.render(<MultiSnakeGame
                         boardSize={new Vector(20, 20)}
-                        gameEvents={gameEvents}
                         playerName={playerName}
+                        playerStates={playerStates}
+                        fruitStates={fruitStates}
                         onNewSnake={newSnakeCallback} />, document.getElementById("app"))
 }
 
