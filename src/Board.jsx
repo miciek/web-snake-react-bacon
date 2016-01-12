@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Component, PropTypes } from "react"
 import _ from "underscore"
 
 import Vector from "./Vector"
@@ -6,11 +6,11 @@ import Vector from "./Vector"
 import style from "./style.css"
 import classNames from "classnames"
 
-export default class Board extends React.Component {
+export default class Board extends Component {
   static propTypes = {
-    size: React.PropTypes.instanceOf(Vector).isRequired,
-    snakePositions: React.PropTypes.arrayOf(Vector).isRequired,
-    fruitPosition: React.PropTypes.instanceOf(Vector).isRequired
+    size: PropTypes.instanceOf(Vector).isRequired,
+    snakePositions: PropTypes.arrayOf(Vector).isRequired,
+    fruitPosition: PropTypes.instanceOf(Vector).isRequired
   }
 
   render() {

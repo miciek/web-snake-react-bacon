@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Component, PropTypes } from "react"
 import Bacon from "baconjs"
 import _ from "underscore"
 
@@ -6,9 +6,9 @@ import Vector from "./Vector"
 import Board from "./Board"
 import style from "./style"
 
-export default class SnakeGame extends React.Component {
+export default class SnakeGame extends Component {
   static propTypes = {
-    boardSize: React.PropTypes.instanceOf(Vector).isRequired
+    boardSize: PropTypes.instanceOf(Vector).isRequired
   }
 
   static defaultProps = {
@@ -28,7 +28,7 @@ export default class SnakeGame extends React.Component {
     const keys = Bacon.fromEvent(document.body, "keyup").map(".keyCode")
     const lefts = keys.filter(key => key === 37)
     const rights = keys.filter(key => key === 39)
-    return { ticks: ticks, lefts: lefts, rights: rights }
+    return { ticks, lefts, rights }
   }
 
   snakeHeadPositions({ ticks, lefts, rights }) {
