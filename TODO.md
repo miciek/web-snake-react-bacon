@@ -1,0 +1,3 @@
+- [ ] let snake kill itself
+- [ ] restart the game on killing the snake
+- [ ] multiplayer: create stream for websocket instead of callback
