@@ -1,7 +1,3 @@
-body {
-    font-family: 'Helvetica Neue';
-}
-
 .game {
     display: flex;
     flex-direction: column;
@@ -35,6 +31,7 @@ body {
 }
 
 #log {
+    font-family: 'Helvetica Neue';
     width: 337px;
     height: 1.5em;
     margin-top: 0.5em;
