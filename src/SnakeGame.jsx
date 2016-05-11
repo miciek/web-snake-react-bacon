@@ -55,6 +55,9 @@ export default class SnakeGame extends Component {
     fruitEatenEvents.onValue(() => this.setState({ score: this.state.score + 1 }))
     fruitEatenEvents.map(() => Vector.random(this.props.boardSize))
                     .onValue(fruit => this.setState({ fruitPosition: fruit }))
+
+    const gameOverEvents = snakeHeadPositions.filter(head => this.state.snakePositions.find(x => x.equals(head)))
+    gameOverEvents.onValue(() => this.setState({ snakePositions: [], score: 0 }))
   }
 
   render() {
