@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import Vector from "./Vector";
 import SnakeGame from "./SnakeGame";
 

@@ -3,24 +3,24 @@ import Bacon from "baconjs";
 import _ from "underscore";
 import Vector from "./Vector";
 import Board from "./Board";
-import './SnakeGame.css'
+import "./SnakeGame.css";
 
 export default class SnakeGame extends Component {
   static propTypes = {
     boardSize: PropTypes.instanceOf(Vector).isRequired
-  }
+  };
 
   static defaultProps = {
     initialSnakePosition: new Vector(0, 0),
     initialSnakeDirection: new Vector(0, 1),
     initialSnakeLength: 3
-  }
+  };
 
   state = {
     snakePositions: [],
     fruitPosition: Vector.random(this.props.boardSize),
     score: 0
-  }
+  };
 
   inputStreams() {
     const ticks = Bacon.interval(100);
@@ -37,8 +37,8 @@ export default class SnakeGame extends Component {
 
     const directions = actions.scan(this.props.initialSnakeDirection, (dir, f) => f(dir));
     return directions
-              .sampledBy(ticks)
-              .scan(this.props.initialSnakePosition, (pos, dir) => pos.add(dir).mod(this.props.boardSize));
+      .sampledBy(ticks)
+      .scan(this.props.initialSnakePosition, (pos, dir) => pos.add(dir).mod(this.props.boardSize));
   }
 
   componentDidMount() {
@@ -47,15 +47,18 @@ export default class SnakeGame extends Component {
       const biggerSnake = _.union(snake, [head]);
       const validSnake = _.last(biggerSnake, this.props.initialSnakeLength + this.state.score);
       return validSnake;
-    })
+    });
     snakes.onValue(snake => this.setState({ snakePositions: snake }));
 
-    const fruitEatenEvents = snakeHeadPositions.filter(head => head.equals(this.state.fruitPosition));
+    const fruitEatenEvents = snakeHeadPositions.filter(head =>
+      head.equals(this.state.fruitPosition));
     fruitEatenEvents.onValue(() => this.setState({ score: this.state.score + 1 }));
-    fruitEatenEvents.map(() => Vector.random(this.props.boardSize))
-                    .onValue(fruit => this.setState({ fruitPosition: fruit }));
+    fruitEatenEvents
+      .map(() => Vector.random(this.props.boardSize))
+      .onValue(fruit => this.setState({ fruitPosition: fruit }));
 
-    const gameOverEvents = snakeHeadPositions.filter(head => this.state.snakePositions.find(x => x.equals(head)));
+    const gameOverEvents = snakeHeadPositions.filter(head =>
+      this.state.snakePositions.find(x => x.equals(head)));
     gameOverEvents.onValue(() => this.setState({ snakePositions: [], score: 0 }));
   }
 
@@ -63,7 +66,11 @@ export default class SnakeGame extends Component {
     return (
       <div className="SnakeGame">
         <div className="SnakeGame-log">Score: {this.state.score}</div>
-        <Board size={this.props.boardSize} snakePositions={this.state.snakePositions} fruitPosition={this.state.fruitPosition}/>
+        <Board
+          size={this.props.boardSize}
+          snakePositions={this.state.snakePositions}
+          fruitPosition={this.state.fruitPosition}
+        />
       </div>
     );
   }

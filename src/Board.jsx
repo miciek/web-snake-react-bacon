@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from "react";
 import _ from "underscore";
 import classNames from "classnames";
 import Vector from "./Vector";
-import './Board.css'
+import "./Board.css";
 
 export default class Board extends Component {
   static propTypes = {
@@ -16,9 +16,11 @@ export default class Board extends Component {
     const rows = _.range(size.y).map(y => {
       const cells = _.range(size.x).map(x => {
         const pos = new Vector(x, y);
-        const maybeSnakeStyle = { "snake": snakePositions.find(x => x.equals(pos)) };
-        const maybeFruitStyle = { "fruit": fruitPosition.equals(pos) };
-        return <div key={x} className={ classNames("cell", maybeSnakeStyle, maybeFruitStyle) }/>;
+        const maybeSnakeStyle = {
+          snake: snakePositions.find(x => x.equals(pos))
+        };
+        const maybeFruitStyle = { fruit: fruitPosition.equals(pos) };
+        return <div key={x} className={classNames("cell", maybeSnakeStyle, maybeFruitStyle)} />;
       });
       return <div key={y} className="row">{cells}</div>;
     });
