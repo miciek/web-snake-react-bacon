@@ -1,0 +1,12 @@
+.SnakeGame {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.SnakeGame-log {
+    font-family: 'Helvetica Neue';
+    width: 337px;
+    height: 1.5em;
+    margin-top: 0.5em;
+}

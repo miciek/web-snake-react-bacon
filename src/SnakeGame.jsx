@@ -3,6 +3,7 @@ import Bacon from "baconjs";
 import _ from "underscore";
 import Vector from "./Vector";
 import Board from "./Board";
+import './SnakeGame.css'
 
 export default class SnakeGame extends Component {
   static propTypes = {
@@ -60,8 +61,8 @@ export default class SnakeGame extends Component {
 
   render() {
     return (
-      <div className="game">
-        <div className="log">Score: {this.state.score}</div>
+      <div className="SnakeGame">
+        <div className="SnakeGame-log">Score: {this.state.score}</div>
         <Board size={this.props.boardSize} snakePositions={this.state.snakePositions} fruitPosition={this.state.fruitPosition}/>
       </div>
     );
