@@ -17,4 +17,4 @@ Do `npm install` and then `npm start`.
 
 Acknowledgements
 -----
-Based on great [Essential React Template](https://github.com/pheuter/essential-react).
+Based on great [Create React App](https://github.com/facebookincubator/create-react-app).

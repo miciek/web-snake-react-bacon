@@ -2,48 +2,22 @@
   "name": "web-snake-react-bacon",
   "version": "0.1.0",
   "description": "A simple application that showcases several frontend technologies. It serves as a playground for trying out different approaches to frontend development.",
-  "scripts": {
-    "start": "node server.js",
-    "test": "babel-tape-runner test/*.js | faucet",
-    "lint": "eslint src"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/miciek/web-snake-react-bacon.git"
-  },
-  "keywords": [
-    "tutorial",
-    "playground",
-    "javascript",
-    "react",
-    "baconjs",
-    "game",
-    "snake"
-  ],
   "author": "Michal Plachta",
   "license": "MIT",
-  "devDependencies": {
-    "autoprefixer": "^6.0.2",
-    "babel-core": "^5.4.7",
-    "babel-eslint": "^3.1.9",
-    "babel-loader": "^5.1.2",
-    "babel-tape-runner": "^1.2.0",
-    "blue-tape": "^0.1.10",
-    "css-loader": "^0.18.0",
-    "eslint-plugin-react": "^2.3.0",
-    "extract-text-webpack-plugin": "^0.8.2",
-    "faucet": "0.0.1",
-    "postcss-loader": "^0.6.0",
-    "postcss-nested": "^1.0.0",
-    "react-hot-loader": "^1.3.0",
-    "style-loader": "^0.12.3",
-    "webpack": "^1.9.6",
-    "webpack-dev-server": "^1.8.2"
-  },
   "dependencies": {
-    "react": "^0.13.3",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
     "baconjs": "^0.7.73",
     "underscore": "^1.8.3",
-    "classnames": "^2.1.3"
+    "classnames": "^2.2.5"
+  },
+  "devDependencies": {
+    "react-scripts": "0.9.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   }
 }
