@@ -1,20 +1,26 @@
 Reactive Snake
 ==============
 
-This is a simple application that showcases several frontend technologies. It serves as a playground for trying out different approaches to frontend development.
+A small and simple implementation of classic Snake game that showcases several frontend technologies.
 
 The current version uses:
-- React
-- Bacon.js
-- Flexbox
-- Underscore.js
+- [React](https://facebook.github.io/react/)
+- [Bacon.js](https://baconjs.github.io/)
+- [Flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Using_CSS_flexible_boxes)
+- [Underscore.js](http://underscorejs.org/)
 
-You can create this app from scratch using [Reactive UI by example blog post](http://michalplachta.com/2016/05/11/reactive-ui-by-example/) as reference. Please start with `workshop-init` when you want to do so.
+Step-by-step tutorial
+---------------------
+You can create this app from scratch using [Reactive UI by example blog post](http://michalplachta.com/2016/05/11/reactive-ui-by-example/) as reference. Please checkout `workshop-init` branch when you want to do so.
 
 Usage
 -----
-Do `npm install` and then `npm start`.
+Do `npm install` and then `npm start`. To run tests, execute `npm test`.
+
+Demo
+----
+![Snake Demo](demo.gif)
 
 Acknowledgements
 -----
-Based on great [Create React App](https://github.com/facebookincubator/create-react-app).
+The application was created using [Create React App](https://github.com/facebookincubator/create-react-app).
