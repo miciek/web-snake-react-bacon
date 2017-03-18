@@ -17,7 +17,7 @@ export default class Board extends Component {
       const cells = _.range(size.x).map(x => {
         const pos = new Vector(x, y);
         const maybeSnakeStyle = {
-          snake: snakePositions.find(x => x.equals(pos))
+          snake: snakePositions.find(s => s.equals(pos))
         };
         const maybeFruitStyle = { fruit: fruitPosition.equals(pos) };
         return <div key={x} className={classNames("cell", maybeSnakeStyle, maybeFruitStyle)} />;
