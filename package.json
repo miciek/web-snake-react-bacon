@@ -12,7 +12,9 @@
     "classnames": "^2.2.5"
   },
   "devDependencies": {
-    "react-scripts": "0.9.5"
+    "react-scripts": "0.9.5",
+    "react-addons-test-utils": "^15.4.2",
+    "enzyme": "^2.7.1"
   },
   "scripts": {
     "start": "react-scripts start",

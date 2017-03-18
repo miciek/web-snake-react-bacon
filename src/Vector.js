@@ -12,12 +12,12 @@ export default class Vector {
     return new Vector(this.x + v.x, this.y + v.y);
   }
 
-  mod(size) {
-    return new Vector((this.x + size.x) % size.x, (this.y + size.y) % size.y);
+  mod(max) {
+    return new Vector((this.x + max.x) % max.x, (this.y + max.y) % max.y);
   }
 
-  static random(size) {
-    return new Vector(Math.floor(Math.random() * size.x), Math.floor(Math.random() * size.y));
+  static random(max) {
+    return new Vector(Math.floor(Math.random() * max.x), Math.floor(Math.random() * max.y));
   }
 
   static rotateRight(vec) {
