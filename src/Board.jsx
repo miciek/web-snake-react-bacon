@@ -7,7 +7,7 @@ import "./Board.css";
 export default class Board extends Component {
   static propTypes = {
     size: PropTypes.instanceOf(Vector).isRequired,
-    snakePositions: PropTypes.arrayOf(Vector).isRequired,
+    snakePositions: PropTypes.arrayOf(PropTypes.instanceOf(Vector)).isRequired,
     fruitPosition: PropTypes.instanceOf(Vector).isRequired
   };
 
